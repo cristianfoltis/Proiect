@@ -1,0 +1,84 @@
+<form novalidate #form="ngForm" (submit)="onSubmit()">
+    <input type="hidden" name="deviceId" [value]="device.deviceId" />
+    <div class="form-group">
+        <label>Device Name</label>
+        <input class="form-control form-control-lg" placeholder="Device name" name="deviceName" #deviceName="ngModel"
+            [(ngModel)]="device.deviceName" required maxlength="50">
+    </div>
+
+    <div class="form-group">
+        <label>Manufacturer</label>
+        <input class="form-control form-control-lg" placeholder="Manufacturer" name="manufacturer"
+            #manufacturer="ngModel" [(ngModel)]="device.manufacturer" required maxlength="25">
+    </div>
+
+    <div class="form-group">
+        <label>Type</label>
+        <input class="form-control form-control-lg" placeholder="Type" name="type" #type="ngModel"
+            [(ngModel)]="device.deviceType" required maxlength="50">
+    </div>
+
+    <div class="form-group">
+        <label>OS</label>
+        <input class="form-control form-control-lg" placeholder="OS" name="os" #os="ngModel"
+            [(ngModel)]="device.deviceOS" required maxlength="25">
+    </div>
+
+    <div class="form-group">
+        <label>Processor</label>
+        <input class="form-control form-control-lg" placeholder="Processor" name="deviceProcessor"
+            #deviceProcessor="ngModel" [(ngModel)]="device.deviceProcessor" required maxlength="50">
+    </div>
+
+    <div class="form-group">
+        <label>RAM</label>
+        <input class="form-control form-control-lg" placeholder="RAM" name="deviceRAM" #deviceRAM="ngModel"
+            [(ngModel)]="device.deviceRAM" required maxlength="50">
+    </div>
+
+    <div class="form-group">
+        <label>User</label>
+        <select class="form-select" aria-label="users select" name="userId" #userId="ngModel"
+            [(ngModel)]="device.userId">
+            <option [value]="usr.userId" *ngFor="let usr of users">
+                {{usr.userName}}
+            </option>
+        </select>
+    </div>
+
+
+    <br>
+    <div class="form-group">
+        <button class="btn btn-info btn-lg btn-block" type="submit" [disabled]="form.invalid">
+            <div *ngIf="isEdit;else create"> UPDATE </div>
+            <ng-template #create>CREATE</ng-template>
+        </button>
+        <button class="btn btn-warning btn-lg btn-block" type="button" (click)="resetForm()">NEW</button>
+    </div>
+</form>
+
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Manufacturer</th>
+            <th>Type</th>
+            <th>OS</th>
+            <th>Processor</th>
+            <th>RAM</th>
+            <th>User</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let dev of devices" (click)="onSelect(dev)" [class.selected]="device === dev">
+            <td>{{dev.deviceName}}</td>
+            <td>{{dev.manufacturer}}</td>
+            <td>{{dev.deviceType}}</td>
+            <td>{{dev.deviceOS}}</td>
+            <td>{{dev.deviceProcessor}}</td>
+            <td>{{dev.deviceRAM}}</td>
+            <td>{{dev.user.userName}}</td>
+            <td><button class="btn btn-sm btn-danger" (click)="remove($event, dev)">X</button></td>
+        </tr>
+    </tbody>

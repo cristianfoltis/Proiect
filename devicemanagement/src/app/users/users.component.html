@@ -1,0 +1,46 @@
+<form novalidate #form="ngForm" (submit)="onSubmit()">
+    <input type="hidden" name="userId" [value]="user.userId" />
+    <div class="form-group">
+        <label>User Name</label>
+        <input class="form-control form-control-lg" placeholder="Username" name="userName" #userName="ngModel"
+            [(ngModel)]="user.userName" required maxlength="50">
+    </div>
+
+    <div class="form-group">
+        <label>User Role</label>
+        <input class="form-control form-control-lg" placeholder="Role" name="userRole" #userRole="ngModel"
+            [(ngModel)]="user.userRole" required maxlength="25">
+    </div>
+
+    <div class="form-group">
+        <label>User Location</label>
+        <input class="form-control form-control-lg" placeholder="Location" name="userLocation" #userLocation="ngModel"
+            [(ngModel)]="user.userLocation" required maxlength="50">
+    </div>
+    <div class="form-group">
+        <button class="btn btn-info btn-lg btn-block" type="submit" [disabled]="form.invalid">
+            <div *ngIf="isEdit;else create"> UPDATE </div>
+            <ng-template #create>CREATE</ng-template>
+        </button>
+        <button class="btn btn-warning btn-lg btn-block" type="button" (click)="resetForm()">NEW</button>
+    </div>
+</form>
+
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th>User Name</th>
+            <th>User Role</th>
+            <th>Location</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let usr of users" (click)="onSelect(usr)" [class.selected]="user === usr">
+            <td>{{usr.userName}}</td>
+            <td>{{usr.userRole}}</td>
+            <td>{{usr.userLocation}}</td>
+            <td><button class="btn btn-sm btn-danger" (click)="remove($event, usr)">X</button></td>
+        </tr>
+    </tbody>
+</table>
